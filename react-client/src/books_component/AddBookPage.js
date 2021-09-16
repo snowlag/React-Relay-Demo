@@ -1,5 +1,13 @@
 import React , {useEffect }from 'react'
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 const { useMutation , usePreloadedQuery , useLazyLoadQuery} = require('react-relay');
+
+
 const graphql = require("babel-plugin-relay/macro");
 
 function AddBookPage(props) {
@@ -26,13 +34,7 @@ function AddBookPage(props) {
         }
     }
    `
-
-//    const authorsdata = usePreloadedQuery(FetchAuthorsQuery ,  props.initialQueryRef)
-
-   const authorsdata = useLazyLoadQuery(FetchAuthorsQuery , {fetchPolicy: 'store-or-network'})
-
-
-
+    const authorsdata = useLazyLoadQuery(FetchAuthorsQuery , {fetchPolicy: 'store-or-network'})
     const [data , setData] = React.useState({})
     const [authors , setAuthors] = React.useState([])
     const [flag , setFlag] = React.useState(false)
@@ -52,7 +54,7 @@ function AddBookPage(props) {
         }
     }, [props.newAuthor , flag])
 
-    
+
     const onSubmithandler = (event) => {
         console.log("Submitted data" , data)
         commit({
@@ -73,19 +75,23 @@ function AddBookPage(props) {
         <div>
             <form onSubmit={onSubmithandler}>
                 <hr/> 
-                <span>Add Book</span>
-                <input type="text" name="name" label="Name of the book" placeholder="Book Name"   onChange={onhandleChange}/>
-                <input type="text" name="genre" label="Age of the author" placeholder="Genre"   onChange={onhandleChange}/>
-                <input type="text" name="id" label="id" placeholder="id"  onChange={onhandleChange}/>
+                <Typography variant="h4" gutterBottom component="div">
+                    Add Book
+                </Typography>
+                <TextField type="text" name="name" label="Name of the book" placeholder="Book Name"   onChange={onhandleChange}/>
+                <TextField type="text" name="genre" label="Age of the author" placeholder="Genre"   onChange={onhandleChange}/>
+                <TextField type="text" name="id" label="id" placeholder="id"  onChange={onhandleChange}/>
                 {/* <input type="text" name="authorid" label="author id" placeholder="authorid"   onChange={onhandleChange}/> */}
-                <select  id="authors" name="authorid" onChange={onhandleChange}>
+               
+                <Select  id="authors" name="authorid" onChange={onhandleChange}>
                     {authors && authors.map((author) => {
-                        return  <option key={author.id} value={author.id}>{author.Name}</option>
+                        return  <MenuItem key={author.id} value={author.id}>{author.Name}</MenuItem>
 
                     })}
 
-                </select>
-                <button type="submit" >Submit</button>
+                </Select>
+                <br />
+                <Button  variant="contained" type="submit" >Add</Button>
                 <hr/> 
             </form>
             {isInFlight && "Adding"}

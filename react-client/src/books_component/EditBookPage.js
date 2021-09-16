@@ -1,6 +1,8 @@
 import React from 'react'
-const { useMutation} = require('react-relay');
-const graphql = require("babel-plugin-relay/macro");
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+const { useMutation , graphql} = require('react-relay');
 
 function EditBookpage(props) {
     const [commit, isInFlight] = useMutation(graphql`
@@ -27,27 +29,22 @@ function EditBookpage(props) {
         setData({...data , [event.target.name] : event.target.value}) 
     }
 
-
-
-
-
     return (
         <div>
             <form onSubmit={onSubmithandler}> 
-                <hr/>
-                <span>Edit Book</span>
-                <input type="text" name="name" label="Name of Book" placeholder="Book name"  onChange={onhandleChange}/>
-                <input type="text" name="genre" label="Genre" placeholder="Genre"   onChange={onhandleChange}/>
-                <input type="text" name="id" label="id" placeholder="existing book id"  onChange={onhandleChange}/>
-                <button type="submit" >Update</button>
+                <Typography variant="h4" gutterBottom component="div">
+                  Edit Book
+                 </Typography>
+                <TextField type="text" name="name" label="Name of Book" placeholder="Book name"  onChange={onhandleChange}/>
+                <TextField type="text" name="genre" label="Genre" placeholder="Genre"   onChange={onhandleChange}/>
+                <TextField type="text" name="id" label="Existing id" placeholder="existing book id"  onChange={onhandleChange}/>
+                <br/>
+                <Button  variant="contained" type="submit" >Update</Button>
                 <hr/>
             </form>
-            {isInFlight && "Updating"}
-            
+            {isInFlight && "Updating"}           
         </div>
     )
 }
-
-
 export default EditBookpage
 
