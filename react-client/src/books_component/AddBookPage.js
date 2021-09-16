@@ -52,6 +52,7 @@ function AddBookPage(props) {
         }
     }, [props.newAuthor , flag])
 
+    
     const onSubmithandler = (event) => {
         console.log("Submitted data" , data)
         commit({

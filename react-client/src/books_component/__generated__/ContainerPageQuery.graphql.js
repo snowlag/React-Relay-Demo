@@ -8,7 +8,6 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-type SamplePage_book$ref = any;
 export type ContainerPageQueryVariables = {||};
 export type ContainerPageQueryResponse = {|
   +books: ?$ReadOnlyArray<?{|
@@ -17,7 +16,6 @@ export type ContainerPageQueryResponse = {|
     +author: ?{|
       +id: ?string
     |},
-    +$fragmentRefs: SamplePage_book$ref,
   |}>
 |};
 export type ContainerPageQuery = {|
@@ -35,17 +33,7 @@ query ContainerPageQuery {
     author {
       id
     }
-    ...SamplePage_book
     id
-  }
-}
-
-fragment SamplePage_book on Book {
-  Genre
-  author {
-    id
-    Name
-    Age
   }
 }
 */
@@ -78,6 +66,18 @@ v3 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Author",
+  "kind": "LinkedField",
+  "name": "author",
+  "plural": false,
+  "selections": [
+    (v3/*: any*/)
+  ],
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -96,23 +96,7 @@ return {
         "selections": [
           (v1/*: any*/),
           (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Author",
-            "kind": "LinkedField",
-            "name": "author",
-            "plural": false,
-            "selections": [
-              (v3/*: any*/)
-            ],
-            "storageKey": null
-          },
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "SamplePage_book"
-          }
+          (v4/*: any*/)
         ],
         "storageKey": "books(first:8)"
       }
@@ -136,26 +120,7 @@ return {
         "selections": [
           (v1/*: any*/),
           (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Author",
-            "kind": "LinkedField",
-            "name": "author",
-            "plural": false,
-            "selections": [
-              (v3/*: any*/),
-              (v1/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "Age",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          },
+          (v4/*: any*/),
           (v3/*: any*/)
         ],
         "storageKey": "books(first:8)"
@@ -163,16 +128,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bd876dc4785262d39e3a2e79a3d181ff",
+    "cacheID": "ab06b72f76de53855f6c0ac434fd2c32",
     "id": null,
     "metadata": {},
     "name": "ContainerPageQuery",
     "operationKind": "query",
-    "text": "query ContainerPageQuery {\n  books(first: 8) {\n    Name\n    Genre\n    author {\n      id\n    }\n    ...SamplePage_book\n    id\n  }\n}\n\nfragment SamplePage_book on Book {\n  Genre\n  author {\n    id\n    Name\n    Age\n  }\n}\n"
+    "text": "query ContainerPageQuery {\n  books(first: 8) {\n    Name\n    Genre\n    author {\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '9aa8f19a8a8d3c3bc41bbc11e2ec2afc';
+(node/*: any*/).hash = 'eaebcf46dcfcfb23f9f67ec8469953ae';
 
 module.exports = node;

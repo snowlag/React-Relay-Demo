@@ -1,11 +1,11 @@
-import { useLazyLoadQuery  ,useFragment, graphql, usePreloadedQuery} from "react-relay"
+import { loadQuery , graphql, usePreloadedQuery} from "react-relay"
 import React , {useEffect} from "react"
 import BookPage from "./BookPage"
 import AddAuthorPage from "./AddAuthorPage"
 import EditBookPage from "./EditBookPage"
 import AddBookPage from "./AddBookPage"
 import EditAuthorPage from "./EditAuthorPage"
-import SamplePage from "./SamplePage"
+const {useRelayEnvironment} = require('react-relay');
 
 const BooksQuery = graphql`
 query ContainerPageQuery {
@@ -15,11 +15,7 @@ query ContainerPageQuery {
     author{
       id
     }
-    ...SamplePage_book
-
-
   }
-
 }
 `
 
@@ -27,13 +23,18 @@ query ContainerPageQuery {
 
 
 const Containerpage = (props) => {
-    console.log(props)
-    const data = usePreloadedQuery(BooksQuery , props.initialQueryRef)
+  const Environment = useRelayEnvironment();
+  const queryReference = loadQuery(
+    Environment,
+    BooksQuery,
+    {fetchPolicy: 'store-or-network'},
+  );
+
+
+
+    const data = usePreloadedQuery(BooksQuery , queryReference)
     const [books , setBooks] = React.useState([])
     const [newauthor , setNewAuthor] = React.useState(null)
-
-    console.log("new data"  , data)
-
 
     useEffect(() => {
        if(data && data.books && data.books.length> 0){
@@ -69,11 +70,6 @@ const Containerpage = (props) => {
           <AddAuthorPage AddNewAuthor={AddNewAuthor}/>
           <AddBookPage AddBook={AddBook} newAuthor={newauthor} initialQueryRef = {props.initialQueryRef} />
           <EditAuthorPage />
-          {data && data.books && data.books.map((book , index) => {
-            return <SamplePage key={index} book={book} />
-          })}
-       
- 
         </div>
     )
 }

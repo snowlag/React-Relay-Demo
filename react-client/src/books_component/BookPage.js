@@ -1,14 +1,13 @@
 import React from 'react'
-const {useQueryLoader , usePreloadedQuery , useFragment} = require('react-relay');
-const graphql = require("babel-plugin-relay/macro");
+import {useQueryLoader , usePreloadedQuery , graphql} from 'react-relay';
+import AuthorData from "./AuthorData"
 
 
 
 const BookPageQuery = graphql`
 query BookPageQuery($id: ID){
   author(id: $id){
-    Name
-    id
+    ...AuthorData_author
   }
 }
 `
@@ -62,7 +61,7 @@ const AuthorInfo = ({queryReference}) => {
     console.log(data)
     return(
       <div>
-        {data.author.Name}
+        <AuthorData author={data.author} />
       </div>
     )
 }
